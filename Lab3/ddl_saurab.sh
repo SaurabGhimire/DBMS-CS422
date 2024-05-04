@@ -1,0 +1,1 @@
+mysql -e "DROP DATABASE IF EXISTS lab2_college_department;CREATE DATABASE lab2_college_department;use lab2_college_department;source ddl_saurab.sql"
