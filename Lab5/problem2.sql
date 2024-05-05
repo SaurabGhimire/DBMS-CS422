@@ -37,24 +37,24 @@ insert into Orders (customer_id, order_date, ship_city, ship_country) values (5,
 
 -- Inserting Data into OrderDetails
 insert into OrderDetails (order_id, product_id, quantity) values (1, 5, 7);
-insert into OrderDetails (order_id, product_id, quantity) values (3, 10, 3);
-insert into OrderDetails (order_id, product_id, quantity) values (7, 2, 8);
-insert into OrderDetails (order_id, product_id, quantity) values (5, 8, 5);
-insert into OrderDetails (order_id, product_id, quantity) values (9, 3, 10);
-insert into OrderDetails (order_id, product_id, quantity) values (2, 15, 2);
-insert into OrderDetails (order_id, product_id, quantity) values (4, 12, 6);
-insert into OrderDetails (order_id, product_id, quantity) values (6, 4, 4);
-insert into OrderDetails (order_id, product_id, quantity) values (8, 9, 7);
-insert into OrderDetails (order_id, product_id, quantity) values (10, 11, 3);
 insert into OrderDetails (order_id, product_id, quantity) values (1, 7, 9);
-insert into OrderDetails (order_id, product_id, quantity) values (3, 13, 1);
-insert into OrderDetails (order_id, product_id, quantity) values (7, 6, 5);
-insert into OrderDetails (order_id, product_id, quantity) values (5, 14, 6);
-insert into OrderDetails (order_id, product_id, quantity) values (9, 1, 8);
 insert into OrderDetails (order_id, product_id, quantity) values (2, 3, 4);
+insert into OrderDetails (order_id, product_id, quantity) values (2, 15, 2);
+insert into OrderDetails (order_id, product_id, quantity) values (3, 10, 3);
+insert into OrderDetails (order_id, product_id, quantity) values (3, 13, 1);
 insert into OrderDetails (order_id, product_id, quantity) values (4, 2, 7);
+insert into OrderDetails (order_id, product_id, quantity) values (4, 12, 6);
+insert into OrderDetails (order_id, product_id, quantity) values (5, 8, 5);
+insert into OrderDetails (order_id, product_id, quantity) values (5, 14, 6);
+insert into OrderDetails (order_id, product_id, quantity) values (6, 4, 4);
 insert into OrderDetails (order_id, product_id, quantity) values (6, 8, 3);
+insert into OrderDetails (order_id, product_id, quantity) values (7, 2, 8);
+insert into OrderDetails (order_id, product_id, quantity) values (7, 6, 5);
 insert into OrderDetails (order_id, product_id, quantity) values (8, 5, 9);
+insert into OrderDetails (order_id, product_id, quantity) values (8, 9, 7);
+insert into OrderDetails (order_id, product_id, quantity) values (9, 1, 8);
+insert into OrderDetails (order_id, product_id, quantity) values (9, 3, 10);
+insert into OrderDetails (order_id, product_id, quantity) values (10, 11, 3);
 insert into OrderDetails (order_id, product_id, quantity) values (10, 15, 5);
 
 -- Show data
