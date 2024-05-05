@@ -1,9 +1,9 @@
 -- Create and Use Database
-create database Sales_DB;
+Create database Sales_DB;
 use Sales_DB;
 
 -- Create Customers Table
-create table Customers(
+Create Table Customers(
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name varchar(255) NOT NULL,
     contact_name varchar(255),
@@ -11,7 +11,7 @@ create table Customers(
 );
 
 -- Create Orders Table
-create table Orders(
+Create Table Orders(
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     customer_id int,
     order_date datetime,
@@ -21,7 +21,7 @@ create table Orders(
 );
 
 -- Create Products Table
-create table Products(
+Create Table Products(
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     product_name varchar(255) NOT NULL,
     supplier_id int,
@@ -30,12 +30,11 @@ create table Products(
 );
 
 -- Create OrderDetails Table
-create table OrderDetails(
+Create Table OrderDetails(
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     order_id int, 
     product_id int,
     quantity int, 
-    unit_price float,
     FOREIGN KEY (product_id) REFERENCES Products(id),
     FOREIGN KEY (order_id) REFERENCES Orders(id)
 );
