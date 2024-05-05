@@ -1,1 +1,0 @@
-mysql -e "DROP DATABASE IF EXISTS sales_db;source problem1.sql;source problem2.sql"

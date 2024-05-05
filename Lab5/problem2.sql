@@ -7,21 +7,21 @@ insert into Customers (name, contact_name, country) values ("Roshan Bhattarai", 
 
 -- Insert Data into Products
 insert into Products (product_name, supplier_id, category_id, unit_price) values ("Macbook", 1, 1, 1600.0);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("iPhone 13 Pro", 1, 1, 1039.14);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Samsung Galaxy S23", 1, 1, 1279.34);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Sony Bravia TV", 2, 3, 1400.25);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Dell XPS 15", 1, 1, 1300.28);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Canon Camera", 3, 2, 2400.45);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Bose Headphones",4, 4, 350.27);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Mixer", 5, 5, 200.76);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Nintendo", 6, 6, 349.3);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("TCL TV", 2, 3, 400.0);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Microsoft Surface Pro", 1, 1, 009.15);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Fitbit", 7, 7, 179.3);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Gas Grill", 8, 8, 800.16);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("Electric Guitar", 9, 9, 1100.2);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("LG Monitor", 2, 3, 300.78);
-INSERT INTO Products (product_name, supplier_id, category_id, unit_price) VALUES ("GoPro Hero", 10, 2, 400.34);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("iPhone 13 Pro", 1, 1, 1039.14);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Samsung Galaxy S23", 1, 1, 1279.34);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Sony Bravia TV", 2, 3, 1400.25);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Dell XPS 15", 1, 1, 1300.28);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Canon Camera", 3, 2, 2400.45);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Bose Headphones",4, 4, 350.27);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Mixer", 5, 5, 200.76);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Nintendo", 6, 6, 349.3);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("TCL TV", 2, 3, 400.0);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Microsoft Surface Pro", 1, 1, 009.15);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Fitbit", 7, 7, 179.3);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Gas Grill", 8, 8, 800.16);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("Electric Guitar", 9, 9, 1100.2);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("LG Monitor", 2, 3, 300.78);
+insert into Products (product_name, supplier_id, category_id, unit_price) values ("GoPro Hero", 10, 2, 400.34);
 
 -- Insert Data into Orders
 insert into Orders (customer_id, order_date, ship_city, ship_country) values (1, '2021-11-1', 'Fairfield', 'USA');
@@ -36,25 +36,31 @@ insert into Orders (customer_id, order_date, ship_city, ship_country) values (5,
 insert into Orders (customer_id, order_date, ship_city, ship_country) values (5, '2022-11-23', 'Chelsea', 'England');
 
 -- Inserting Data into OrderDetails
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (1, 5, 7);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (3, 10, 3);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (7, 2, 8);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (5, 8, 5);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (9, 3, 10);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (2, 15, 2);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (4, 12, 6);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (6, 4, 4);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (8, 9, 7);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (10, 11, 3);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (1, 7, 9);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (3, 13, 1);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (7, 6, 5);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (5, 14, 6);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (9, 1, 8);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (2, 3, 4);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (4, 2, 7);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (6, 8, 3);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (8, 5, 9);
-INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES (10, 15, 5);
+insert into OrderDetails (order_id, product_id, quantity) values (1, 5, 7);
+insert into OrderDetails (order_id, product_id, quantity) values (3, 10, 3);
+insert into OrderDetails (order_id, product_id, quantity) values (7, 2, 8);
+insert into OrderDetails (order_id, product_id, quantity) values (5, 8, 5);
+insert into OrderDetails (order_id, product_id, quantity) values (9, 3, 10);
+insert into OrderDetails (order_id, product_id, quantity) values (2, 15, 2);
+insert into OrderDetails (order_id, product_id, quantity) values (4, 12, 6);
+insert into OrderDetails (order_id, product_id, quantity) values (6, 4, 4);
+insert into OrderDetails (order_id, product_id, quantity) values (8, 9, 7);
+insert into OrderDetails (order_id, product_id, quantity) values (10, 11, 3);
+insert into OrderDetails (order_id, product_id, quantity) values (1, 7, 9);
+insert into OrderDetails (order_id, product_id, quantity) values (3, 13, 1);
+insert into OrderDetails (order_id, product_id, quantity) values (7, 6, 5);
+insert into OrderDetails (order_id, product_id, quantity) values (5, 14, 6);
+insert into OrderDetails (order_id, product_id, quantity) values (9, 1, 8);
+insert into OrderDetails (order_id, product_id, quantity) values (2, 3, 4);
+insert into OrderDetails (order_id, product_id, quantity) values (4, 2, 7);
+insert into OrderDetails (order_id, product_id, quantity) values (6, 8, 3);
+insert into OrderDetails (order_id, product_id, quantity) values (8, 5, 9);
+insert into OrderDetails (order_id, product_id, quantity) values (10, 15, 5);
+
+-- Show data
+select * from customers;
+select * from products;
+select * from orders;
+select * from orderdetails;
 
 
