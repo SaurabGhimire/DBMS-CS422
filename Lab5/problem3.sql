@@ -99,10 +99,28 @@ GROUP BY p.category_id, c.name
 order by p.category_id;
 
 --l. Which products have been ordered by customers from a specific country?
--- SELECT c.country, c.name, p.product_name
--- FROM customers c
--- INNER JOIN orders AS o ON c.id = o.customer_id
--- INNER JOIN orderdetails AS od ON od.order_id = o.id
--- INNER JOIN products AS p ON p.id = od.product_id
--- GROUP BY c.country, p.product_name
--- order by c.country;
+SELECT c.country, c.name, p.product_name
+FROM customers c
+INNER JOIN orders AS o ON c.id = o.customer_id
+INNER JOIN orderdetails AS od ON od.order_id = o.id
+INNER JOIN products AS p ON p.id = od.product_id
+GROUP BY p.product_name, c.country, c.name
+order by c.country;
+
+--m. Which customers have ordered the most products?
+SELECT c.name, sum(od.quantity) as total_quantity
+FROM customers c
+INNER JOIN orders AS o ON c.id = o.customer_id
+INNER JOIN orderdetails AS od ON od.order_id = o.id
+INNER JOIN products AS p ON p.id = od.product_id
+GROUP BY c.name
+order by total_quantity desc
+limit 1;
+
+--n. Which customers have ordered the most expensive products?
+SELECT c.name, p.unit_price AS most_expensive
+FROM customers c
+INNER JOIN orders AS o ON c.id = o.customer_id
+INNER JOIN orderdetails AS od ON od.order_id = o.id
+INNER JOIN products AS p ON p.id = od.product_id
+WHERE p.unit_price = (SELECT MAX(unit_price) FROM products)
