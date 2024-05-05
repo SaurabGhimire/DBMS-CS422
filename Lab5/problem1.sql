@@ -1,6 +1,6 @@
 -- Create and Use Database
-Create Database Sales_DB;
-Use Sales_DB;
+Create Database Database_miu_422_Sales_DB;
+Use Database_miu_422_Sales_DB;
 
 -- Create Customers Table
 Create Table Customers(
