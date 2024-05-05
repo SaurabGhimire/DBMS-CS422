@@ -32,10 +32,12 @@ create table Products(
 -- Create OrderDetails Table
 create table OrderDetails(
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    order_id int, 
     product_id int,
     quantity int, 
     unit_price float,
-    FOREIGN KEY (product_id) REFERENCES Products(id)
+    FOREIGN KEY (product_id) REFERENCES Products(id),
+    FOREIGN KEY (order_id) REFERENCES Orders(id)
 );
 
 
