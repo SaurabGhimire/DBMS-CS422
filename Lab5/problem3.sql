@@ -79,7 +79,7 @@ INNER JOIN products AS p ON p.id = od.product_id
 GROUP BY c.id, o.ship_city
 ORDER BY c.id;
 
---j. Which customers have placed orders for products from more than one category?
+-- j. Which customers have placed orders for products from more than one category?
 SELECT c.id, c.name, count(p.category_id) as category_count
 FROM customers c
 INNER JOIN orders AS o ON c.id = o.customer_id
@@ -89,7 +89,7 @@ GROUP BY c.id
 having category_count>1
 ORDER BY c.id;
 
---k. Which customers have placed orders for products from a specific category
+-- k. Which customers have placed orders for products from a specific category
 SELECT p.category_id, c.name
 FROM customers c
 INNER JOIN orders AS o ON c.id = o.customer_id
@@ -98,7 +98,7 @@ INNER JOIN products AS p ON p.id = od.product_id
 GROUP BY p.category_id, c.name
 order by p.category_id;
 
---l. Which products have been ordered by customers from a specific country?
+-- l. Which products have been ordered by customers from a specific country?
 SELECT c.country, c.name, p.product_name
 FROM customers c
 INNER JOIN orders AS o ON c.id = o.customer_id
@@ -107,7 +107,7 @@ INNER JOIN products AS p ON p.id = od.product_id
 GROUP BY p.product_name, c.country, c.name
 order by c.country;
 
---m. Which customers have ordered the most products?
+-- m. Which customers have ordered the most products?
 SELECT c.name, sum(od.quantity) as total_quantity
 FROM customers c
 INNER JOIN orders AS o ON c.id = o.customer_id
@@ -117,7 +117,7 @@ GROUP BY c.name
 order by total_quantity desc
 limit 1;
 
---n. Which customers have ordered the most expensive products?
+-- n. Which customers have ordered the most expensive products?
 SELECT c.name, p.unit_price AS most_expensive
 FROM customers c
 INNER JOIN orders AS o ON c.id = o.customer_id
