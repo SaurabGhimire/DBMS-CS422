@@ -1,6 +1,6 @@
 -- Create and Use Database
-Create database Sales_DB;
-use Sales_DB;
+Create Database Sales_DB;
+Use Sales_DB;
 
 -- Create Customers Table
 Create Table Customers(
@@ -26,7 +26,7 @@ Create Table Products(
     product_name varchar(255) NOT NULL,
     supplier_id int,
     category_id int,
-    unit_price float default 0.0
+    unit_price float DEFAULT 0.0
 );
 
 -- Create OrderDetails Table
