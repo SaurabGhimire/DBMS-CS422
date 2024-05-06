@@ -158,7 +158,7 @@ FROM Hotel AS h
 INNER JOIN Booking AS b ON b.hotelNo = h.hotelNo
 INNER JOIN Guest AS g ON g.guestNo = b.guestNo
 WHERE h.hotelName = "Grosvenor Hotel" 
-and b.dataFrom<= CURDATE()
+and b.dateFrom<= CURDATE()
 and b.dateTo >= CURDATE();
 
 -- 5.18 details of all Room at Grosvenor Hotel
