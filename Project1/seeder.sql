@@ -52,7 +52,7 @@ INSERT INTO CourseSection (courseId, instructorId, location, startDate, endDate,
     (10, 10, 'V208', '2024-12-01', '2024-12-15', '01', 'Monday to Friday 09:00 AM - 11:00 AM');
 
 
-INSERT INTO SectionAssignment (title, instructions, totalScore, addedDate, dueDate, courseSectionId) VALUES 
+INSERT INTO SectionAssignment (title, instructions, totalScore, addedDate, dueDate, sectionId) VALUES 
     ('Lab 1', 'Complete exercises 1-5 in the lab manual.', 10, '2024-09-01 09:00:00', '2024-09-15 23:59:59', 1),
     ('Lab 2', 'Design and implement a simple database schema.', 10, '2024-09-15 09:00:00', '2024-09-30 23:59:59', 2),
     ('Assignment 1', 'Write a report on the given topic.', 15, '2024-09-30 09:00:00', '2024-10-15 23:59:59', 3),
@@ -104,9 +104,7 @@ INSERT INTO Student (firstName, middleName, lastName, email, phone, dob) VALUES
     ('Bikash', 'Raj', 'Poudel', 'bikash@example.com', '444-444-4444', '2001-04-04'),
     ('Rina', 'Kumari', 'Luitel', 'rina@example.com', '666-666-6666', '2001-05-05'),
     ('Prakash', 'Bahadur', 'Thapa', 'prakash@example.com', '888-888-8888', '2001-06-06'),
-    ('Saraswati', 'Kumari', 'Koirala', 'saraswati@example.com', '333-333-3333', '2001-07-07');
-
-INSERT INTO Student (firstName, middleName, lastName, email, phone, dob) VALUES 
+    ('Saraswati', 'Kumari', 'Koirala', 'saraswati@example.com', '333-333-3333', '2001-07-07'),
     ('Alok', 'Raj', 'Shrestha', 'alok@example.com', '111-111-1111', '2001-08-08'),
     ('Komal', 'Kumari', 'Shahi', 'komal@example.com', '222-222-2222', '2001-09-09'),
     ('Rajiv', 'Kumar', 'Raut', 'rajiv@example.com', '333-333-3333', '2001-10-10'),
@@ -116,7 +114,43 @@ INSERT INTO Student (firstName, middleName, lastName, email, phone, dob) VALUES
     ('Anil', 'Kumar', 'Dhakal', 'anil@example.com', '777-777-7777', '2002-02-02'),
     ('Rita', 'Maya', 'Gurung', 'rita@example.com', '888-888-8888', '2002-03-03'),
     ('Shyam', 'Bahadur', 'Gautam', 'shyam@example.com', '999-999-9999', '2002-04-04'),
-    ('Uma', 'Devi', 'Pandey', 'uma@example.com', '123-123-1234', '2002-05-05');
+    ('Uma', 'Devi', 'Pandey', 'uma@example.com', '123-123-1234', '2002-05-05'),
+    ('Rajendra', 'Kumar', 'Bhattarai', 'rajendra@example.com', '321-321-3210', '2002-06-06'),
+    ('Shanti', 'Kumari', 'Shrestha', 'shanti@example.com', '987-654-3210', '2002-07-07'),
+    ('Amit', 'Kumar', 'Rai', 'amit@example.com', '567-567-5678', '2002-08-08'),
+    ('Pramod', 'Bikram', 'Acharya', 'pramod@example.com', '234-234-2345', '2002-09-09'),
+    ('Manisha', 'Maya', 'Poudel', 'manisha@example.com', '789-789-7890', '2002-10-10'),
+    ('Sagar', 'Raj', 'Sharma', 'sagar@example.com', '456-456-4567', '2002-11-11'),
+    ('Rekha', 'Devi', 'Shakya', 'rekha@example.com', '890-890-8901', '2002-12-12'),
+    ('Bibek', 'Kumar', 'Giri', 'bibek@example.com', '321-321-3210', '2003-01-01'),
+    ('Kamal', 'Bahadur', 'Pandey', 'kamal@example.com', '654-654-6543', '2003-02-02'),
+    ('Ritu', 'Maya', 'Rai', 'ritu@example.com', '987-987-9870', '2003-03-03'),
+    ('Nabin', 'Kumar', 'Thapa', 'nabin@example.com', '234-234-2345', '2003-04-04'),
+    ('Sabina', 'Maya', 'Shrestha', 'sabina@example.com', '567-567-5678', '2003-05-05'),
+    ('Binod', 'Raj', 'Gurung', 'binod@example.com', '890-890-8901', '2003-06-06'),
+    ('Pooja', 'Kumari', 'Bhattarai', 'pooja@example.com', '123-123-1234', '2003-07-07'),
+    ('Sandeep', 'Kumar', 'Shakya', 'sandeep@example.com', '456-456-4567', '2003-08-08'),
+    ('Roshan', 'Bahadur', 'Pandey', 'roshan@example.com', '789-789-7890', '2003-09-09'),
+    ('Bimal', 'Kumar', 'Rai', 'bimal@example.com', '321-321-3210', '2003-10-10'),
+    ('Puja', 'Maya', 'Gurung', 'puja@example.com', '654-654-6543', '2003-11-11'),
+    ('Asha', 'Devi', 'Sharma', 'asha@example.com', '987-987-9870', '2003-12-12'),
+    ('Suman', 'Raj', 'Shrestha', 'suman@example.com', '234-234-2345', '2004-01-01'),
+    ('Rajani', 'Kumari', 'Giri', 'rajani@example.com', '567-567-5678', '2004-02-02'),
+    ('Durga', 'Maya', 'Thapa', 'durga@example.com', '890-890-8901', '2004-03-03'),
+    ('Prakash', 'Raj', 'Shakya', 'prakash@example.com', '123-123-1234', '2004-04-04'),
+    ('Kiran', 'Bahadur', 'Pandey', 'kiran@example.com', '456-456-4567', '2004-05-05'),
+    ('Anjana', 'Maya', 'Rai', 'anjana@example.com', '789-789-7890', '2004-06-06'),
+    ('Ramesh', 'Kumar', 'Gurung', 'ramesh2@example.com', '321-321-3210', '2004-07-07'),
+    ('Sita', 'Devi', 'Shrestha', 'sita2@example.com', '654-654-6543', '2004-08-08'),
+    ('Binaya', 'Raj', 'Sharma', 'binaya@example.com', '987-987-9870', '2004-09-09'),
+    ('Prabha', 'Kumari', 'Gurung', 'prabha@example.com', '234-234-2345', '2004-10-10'),
+    ('Rajiv', 'Kumar', 'Shakya', 'rajiv2@example.com', '567-567-5678', '2004-11-11'),
+    ('Sarita', 'Maya', 'Pandey', 'sarita2@example.com', '890-890-8901', '2004-12-12'),
+    ('Dipesh', 'Kumar', 'Rai', 'dipesh@example.com', '123-123-1234', '2005-01-01'),
+    ('Manju', 'Devi', 'Giri', 'manju@example.com', '456-456-4567', '2005-02-02'),
+    ('Suresh', 'Raj', 'Sharma', 'suresh2@example.com', '789-789-7890', '2005-03-03'),
+    ('Nita', 'Maya', 'Gurung', 'nita@example.com', '321-321-3210', '2005-04-04'),
+    ('Rajendra', 'Kumar', 'Shakya', 'rajendra2@example.com', '654-654-6543', '2005-05-05');
 
 -- Generate random scores for each enrolled student within the range of 60 to 100
 INSERT INTO SectionStudentsEnrolled (sectionId, studentId, score)
@@ -128,7 +162,8 @@ INSERT INTO SectionStudentsEnrolled (sectionId, studentId, score)
         CROSS JOIN Student s
         LEFT JOIN SectionStudentsEnrolled sse ON cs.id = sse.sectionId AND s.id = sse.studentId
         WHERE sse.id IS NULL
-        ORDER BY cs.id, s.id
+        -- ORDER BY cs.id, s.id
+        ORDER BY RAND()
         LIMIT 400;
 
 -- Adjust the grade on the basis of scores
@@ -155,6 +190,5 @@ SELECT
     NOW() AS addedDate, 
     NOW() AS modifiedDate
 FROM 
-    SectionAssignment sa
-    CROSS JOIN (SELECT id FROM Student ORDER BY RAND() LIMIT 80) ts LIMIT 120;
-
+    (SELECT id FROM SectionAssignment ORDER BY RAND() LIMIT 120) sa
+    CROSS JOIN (SELECT id FROM Student ORDER BY RAND() LIMIT 120) ts ORDER BY RAND() LIMIT 400;

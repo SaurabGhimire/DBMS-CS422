@@ -53,8 +53,8 @@ Create Table SectionAssignment (
     addedDate DATETIME,
     dueDate DATETIME,
     isDeleted boolean default false,
-    courseSectionId int NOT NULL,
-    FOREIGN KEY (courseSectionId) REFERENCES CourseSection(id) ON DELETE CASCADE
+    sectionId int NOT NULL,
+    FOREIGN KEY (sectionId) REFERENCES CourseSection(id) ON DELETE CASCADE
 );
 
 Create Table SectionAssignmentAttatchment (
@@ -92,7 +92,7 @@ Create TABLE SectionAssignmentSubmissions (
     assignmentId int NOT NULL,
     studentId int NOT NULL,
     score int NULL,
-    status int default 1 COMMENT "1 -> Not Started 2 -> Submitted 3 -> Returned 4-> Revision Requested",
+    status int default 1 COMMENT "1 -> Submitted 2 -> Returned 3-> Revision Requested",
     addedDate DATETIME,
     modifiedDate DATETIME,
     FOREIGN KEY (assignmentId) REFERENCES SectionAssignment(id) ON DELETE CASCADE,
