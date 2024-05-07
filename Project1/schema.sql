@@ -1,4 +1,4 @@
-Drop Database DBMS_CS422_Project1;
+Drop Database If Exists DBMS_CS422_Project1;
 Create Database DBMS_CS422_Project1;
 use DBMS_CS422_Project1;
 

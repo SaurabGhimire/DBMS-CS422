@@ -1,0 +1,1 @@
+mysql -e "source schema.sql;source seeder.sql;source queries.sql"
