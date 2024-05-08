@@ -479,20 +479,69 @@ SELECT c.id AS courseId,c.title AS courseTitle,AVG(sas.score) AS averageGrade
 
 
 -- 60) Retrieve the list of students who have not yet submitted any assignments for any course.
-
-
+select distinct(s.id) from student as s
+join SectionStudentsEnrolled as sse on sse.studentId = s.id
+join SectionAssignment as sa on sa.sectionId = sse.sectionId
+and s.id not in(
+    select distinct(s.id) from student s
+    join SectionStudentsEnrolled as sse on sse.studentId = s.id
+    join SectionAssignment as sa on sa.sectionId = sse.sectionId
+    join SectionAssignmentSubmissions as sas on sas.studentId = s.id
+);
 
 -- 61) Retrieve the list of students who have completed all the courses they have enrolled in.
-
+SELECT s.id, s.firstName, s.lastName, enrolled_courses, completed_courses
+FROM student AS s
+JOIN (
+    SELECT s.id AS student_id, 
+           COUNT(DISTINCT cs.courseId) AS enrolled_courses,
+           COUNT(DISTINCT CASE WHEN sse.grade != 'NC' THEN cs.courseId END) AS completed_courses
+    FROM student AS s
+    JOIN SectionStudentsEnrolled AS sse ON sse.studentId = s.id
+    JOIN CourseSection AS cs ON cs.id = sse.sectionId
+    JOIN course AS c ON c.id = cs.courseId
+    GROUP BY s.id
+) AS course_counts ON s.id = course_counts.student_id
+WHERE course_counts.enrolled_courses = course_counts.completed_courses;
 
 
 -- 62) Retrieve the list of courses where the average grade is lower than a specific threshold.
-
-
+SELECT cs.courseId, c.title, AVG(CASE sse.grade
+                                         WHEN 'A' THEN 4
+                                         WHEN 'A-' THEN 3.75
+                                         WHEN 'B+' THEN 3.5
+                                         WHEN 'B' THEN 3.25
+                                         WHEN 'B-' THEN 3
+                                         WHEN 'C+' THEN 2.75
+                                         WHEN 'C' THEN 2.5
+                                         WHEN 'C-' THEN 2.25
+                                         WHEN 'NC' THEN 0
+                                         ELSE 0
+                                       END) AS avg_numeric_grade
+FROM SectionStudentsEnrolled AS sse
+JOIN CourseSection AS cs ON sse.sectionId = cs.id
+JOIN Course AS c ON cs.courseId = c.id
+GROUP BY cs.courseId, c.title
+HAVING AVG(CASE sse.grade
+            WHEN 'A' THEN 4
+            WHEN 'A-' THEN 3.75
+            WHEN 'B+' THEN 3.5
+            WHEN 'B' THEN 3.25
+            WHEN 'B-' THEN 3
+            WHEN 'C+' THEN 2.75
+            WHEN 'C' THEN 2.5
+            WHEN 'C-' THEN 2.25
+            WHEN 'NC' THEN 0
+            ELSE 0
+           END) < 2.5;
 
 -- 63) Retrieve the list of courses where the number of students enrolled is less than a specific threshold.
-
-
+select c.id, c.title, c.code, count(distinct sse.studentId) as no_of_students_enrolled 
+from Course as c
+join Coursesection as cs on cs.courseId = c.id
+join SectionStudentsEnrolled as sse on sse.sectionId = cs.id
+group by c.id;
+having no_of_students_enrolled < 40;
 
 -- 64) Retrieve the list of students who have not completed a specific course but have submitted all the assignments for that course.
 
