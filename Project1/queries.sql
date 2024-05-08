@@ -506,7 +506,15 @@ WHERE course_counts.enrolled_courses = course_counts.completed_courses;
 
 
 -- 62) Retrieve the list of courses where the average grade is lower than a specific threshold.
-SELECT cs.courseId, c.title, AVG(CASE sse.grade
+SELECT cs.courseId, c.title, AVG(sse.score) AS avg_numeric_grade
+FROM SectionStudentsEnrolled AS sse
+JOIN CourseSection AS cs ON sse.sectionId = cs.id
+JOIN Course AS c ON cs.courseId = c.id
+GROUP BY cs.courseId, c.title
+HAVING AVG(sse.score) < 80;
+/**
+When conversion is required
+SELECT cs.courseId, c.title, AVG(CASE sse.score
                                          WHEN 'A' THEN 4
                                          WHEN 'A-' THEN 3.75
                                          WHEN 'B+' THEN 3.5
@@ -534,6 +542,7 @@ HAVING AVG(CASE sse.grade
             WHEN 'NC' THEN 0
             ELSE 0
            END) < 2.5;
+*/
 
 -- 63) Retrieve the list of courses where the number of students enrolled is less than a specific threshold.
 select c.id, c.title, c.code, count(distinct sse.studentId) as no_of_students_enrolled 
@@ -543,64 +552,151 @@ join SectionStudentsEnrolled as sse on sse.sectionId = cs.id
 group by c.id;
 having no_of_students_enrolled < 40;
 
--- 64) Retrieve the list of students who have not completed a specific course but have submitted all the assignments for that course.
-
-
+-- 64) Retrieve the list of students who have not completed a course but have submitted all the assignments for that course.
 
 -- 65) Retrieve the list of courses where the average grade is higher than the overall average grade of all courses.
-
-
+select c.id, c.title, avg(sse.score) as average_score
+from course as c
+join coursesection as cs on cs.courseId = c.id
+join SectionStudentsEnrolled as sse on sse.sectionId = cs.id
+group by c.id
+having average_score > (
+    select avg(sse.score) as average_score
+    from SectionStudentsEnrolled as sse
+);
 
 -- 66) Retrieve the list of courses where the average grade is higher than a specific threshold and the number of students enrolled is greater than a specific threshold.
-
-
+select c.id, c.title, avg(sse.score) as average_score, count( sse.studentId) as students_enrolled
+from course as c
+join coursesection as cs on cs.courseId = c.id
+join SectionStudentsEnrolled as sse on sse.sectionId = cs.id
+group by c.id
+having average_score > 80 and students_enrolled>25;
 
 -- 67) Retrieve the list of students who have enrolled in at least two courses and have not submitted any assignments in the past month.
-
-
+select s.id, s.firstName, count(distinct c.id) as enrolled_courses_count
+from student as s
+join SectionStudentsEnrolled as sse on sse.studentId = s.id
+join CourseSection as cs on cs.id = sse.sectionId
+join Course as c on c.id = cs.courseId
+group by s.id
+having enrolled_courses_count > 2
+and s.id not in(
+    select distinct studentId
+    from SectionAssignmentSubmissions
+    where MONTH(CURRENT_DATE()) = MONTH(addedDate)
+);
 
 -- 68) Retrieve the list of courses where the percentage of students who have submitted all the assignments is higher than a specific threshold.
-
+SELECT c.id, c.title, cs.id as section_id, submission_counts.total_submissions as total
+FROM Course AS c
+JOIN CourseSection AS cs ON cs.courseId = c.id
+JOIN SectionAssignment AS sa ON sa.sectionId = cs.id
+JOIN (
+    SELECT sa.sectionId, 
+           COUNT(DISTINCT sas.studentId) AS total_students,
+           COUNT(sas.id) AS total_submissions
+    FROM SectionAssignment AS sa
+    LEFT JOIN SectionAssignmentSubmissions AS sas ON sas.assignmentId = sa.id
+    GROUP BY sa.sectionId
+) AS submission_counts ON submission_counts.sectionId = sa.sectionId
+WHERE (submission_counts.total_submissions * 100 / submission_counts.total_students) > 40
+group by cs.id;
 
 
 -- 69) Retrieve the list of students who have enrolled in a course but have not submitted any assignments.
-
+select distinct s.id
+from Student as s 
+join SectionStudentsEnrolled as sse on sse.studentId = s.id
+join CourseSection as cs on sse.sectionId = cs.id
+where s.id not in (
+    select s.id
+    from student as s
+    join SectionStudentsEnrolled as sse on sse.studentId = s.id
+    join SectionAssignment AS sa on sa.sectionId = sse.sectionId
+    JOIN SectionAssignmentSubmissions AS sas ON sas.assignmentId = sa.id
+);
 
 
 -- 70) Retrieve the list of courses where the percentage of students who have submitted at least one assignment is lower than a specific threshold.
 
 
-
 -- 71) Retrieve the list of students who have submitted an assignment after the due date.
-
+select s.id, s.firstName
+from student as s
+join SectionAssignmentSubmissions as sas on sas.studentId = s.id
+join SectionAssignment as sa on sa.id = sas.assignmentId
+where sas.modifiedDate > sa.dueDate;
 
 
 -- 72) Retrieve the list of courses where the average grade of female students is higher than that of male students.
-
+-- TODO need student gender column
 
 
 -- 73) Retrieve the list of courses that have at least one female student and no male students.
-
+-- TODO need student gender
 
 
 -- 74) Retrieve the list of students who have submitted at least one assignment in all the courses they are enrolled in.
-
-
+SELECT st.id, st.firstName, st.lastName
+FROM Student AS st
+JOIN SectionStudentsEnrolled AS sse ON st.id = sse.studentId
+JOIN CourseSection AS cs ON sse.sectionId = cs.id
+JOIN SectionAssignment AS sa ON cs.id = sa.sectionId
+LEFT JOIN SectionAssignmentSubmissions AS sas ON sa.id = sas.assignmentId AND st.id = sas.studentId
+GROUP BY st.id, st.firstName, st.lastName
+HAVING COUNT(DISTINCT cs.id) = COUNT(DISTINCT CASE WHEN sas.id IS NOT NULL THEN cs.id END);
 
 -- 75) Retrieve the list of students who have not enrolled in any courses.
-
+select s.id, s.firstName, s.lastName
+from Student as s
+where s.id not in(
+    select distinct s.id
+    from student as s
+    JOIN SectionStudentsEnrolled AS sse ON s.id = sse.studentId
+    JOIN CourseSection AS cs ON sse.sectionId = cs.id
+);
 
 
 -- 76) Retrieve the list of courses that have the highest number of enrolled students.
-
-
+select c.id, c.title, count(sse.studentId) as max_no_of_students_enrolled
+    from course as c
+    join CourseSection as cs on cs.courseId = c.id
+    join SectionStudentsEnrolled as sse on sse.sectionId = cs.id
+    group by c.id
+    having max_no_of_students_enrolled = (
+        select max(no_of_students_enrolled) from (
+            select count(sse.studentId) as no_of_students_enrolled
+            from course as c
+            join CourseSection as cs on cs.courseId = c.id
+            join SectionStudentsEnrolled as sse on sse.sectionId = cs.id
+            group by c.id
+        ) as max_enrolled
+    );
 
 -- 77) Retrieve the list of assignments that have the lowest average grade.
-
-
+SELECT distinct sa.*
+FROM SectionAssignment AS sa
+JOIN SectionAssignmentSubmissions AS sas ON sas.assignmentId = sa.id
+WHERE sa.id IN (
+    SELECT assignmentId
+    FROM SectionAssignmentSubmissions
+    GROUP BY assignmentId
+    HAVING round(AVG(score),2) = (
+        SELECT round(MIN(average_score),2)
+        FROM (
+            SELECT round(AVG(score),2) AS average_score
+            FROM SectionAssignmentSubmissions
+            GROUP BY assignmentId
+        ) AS lowest_average_score
+    )
+);
 
 -- 78) Retrieve the list of students who have submitted all the assignments in a particular course.
-
+select s.id
+from student as s
+join SectionStudentsEnrolled as sse on sse.studentId = s.id
+join SectionAssignment as sa on sa.sectionId = sse.sectionId
 
 
 -- 79) Retrieve the list of courses where the average grade of all students is above 80.
