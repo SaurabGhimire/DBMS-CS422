@@ -1029,12 +1029,28 @@ order by c.title, cs.sectionNumber;
 
 
 -- 82) Retrieve the list of students who have submitted late submissions for any assignment.
-
+select s.id, s.firstName, s.lastName
+from student as s
+join SectionAssignmentSubmissions as sse on sse.studentId = s.id
+join SectionAssignment as sa on 
 
 
 -- 83) Retrieve the list of courses that have the lowest average grade for a particular semester.
-
-
+select c.title,cs.sectionNumber,round(avg(score),2) as lowest_avg_score
+from coursesection as cs
+join course as c on cs.courseId = c.id
+join SectionStudentsEnrolled as sse on sse.sectionId = cs.id
+group by cs.id, c.id
+having avg_score = (
+    select round(MIN(avg_score),2) AS min_Avg
+    FROM coursesection AS cs
+    JOIN (
+        SELECT cs.courseId, AVG(sse.score) AS avg_score
+        FROM coursesection AS cs
+        JOIN SectionStudentsEnrolled AS sse ON sse.sectionId = cs.id
+        GROUP BY cs.courseId
+    ) AS course_avg ON course_avg.courseId = cs.courseId
+);
 
 -- 84) Retrieve the list of students who have not submitted any assignment for a particular course.
 
