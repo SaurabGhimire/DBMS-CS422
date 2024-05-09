@@ -1011,8 +1011,18 @@ ORDER BY st.id;
 
 
 -- 80) Retrieve the list of students who have the highest grade in each course.
-
-
+select  c.title, cs.sectionNumber,s.firstName, s.lastName, sse.score from student as s
+join SectionStudentsEnrolled as sse on sse.studentId = s.id
+join CourseSection as cs on cs.id = sse.sectionId
+join Course as c on c.id = cs.courseId
+join (
+    select sse.sectionId as secId, max(score) as highes_score
+    from SectionStudentsEnrolled as sse 
+    join student as s on sse.studentId = s.id
+    group by sse.sectionId
+    order by sse.sectionId
+) as topper on topper.secId = sse.sectionId and topper.highes_score = sse.score
+order by c.title, cs.sectionNumber;
 
 -- 81) Retrieve the list of students who have submitted all the assignments on time.
 
@@ -1031,7 +1041,12 @@ ORDER BY st.id;
 
 
 -- 85) Retrieve the list of courses where the highest grade is less than 90.
-
+select c.title, cs.sectionNumber, max(sse.score) as highest_score
+from coursesection as cs
+join course as c on c.id = cs.courseId
+join SectionStudentsEnrolled as sse on sse.sectionId = cs.id
+group by cs.id
+having highest_score < 90;
 
 
 -- 86) Retrieve the list of students who have submitted all the assignments, but their average grade is less than 70.
