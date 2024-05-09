@@ -1007,8 +1007,14 @@ HAVING total_assignments = submitted_assignments
 ORDER BY st.id;
 
 -- 79) Retrieve the list of courses where the average grade of all students is above 80.
-
-
+SELECT c.id, c.title
+FROM Course AS c
+JOIN CourseSection AS cs ON cs.courseId = c.id
+JOIN SectionStudentsEnrolled AS sse ON sse.sectionId = cs.id
+JOIN SectionAssignmentSubmissions AS sas ON sas.studentId = sse.studentId
+JOIN SectionAssignment AS sa ON sa.id = sas.assignmentId
+GROUP BY c.id, c.title
+HAVING AVG(sas.score) > 80;
 
 -- 80) Retrieve the list of students who have the highest grade in each course.
 select  c.title, cs.sectionNumber,s.firstName, s.lastName, sse.score from student as s
@@ -1025,14 +1031,30 @@ join (
 order by c.title, cs.sectionNumber;
 
 -- 81) Retrieve the list of students who have submitted all the assignments on time.
-
-
+SELECT s.id, s.firstName, s.lastName, 
+    COUNT(sa.id) AS total_assignments,
+    COUNT(sas.assignmentId) AS submitted_assignments
+FROM Student AS s
+JOIN SectionStudentsEnrolled AS sse ON s.id = sse.studentId
+JOIN CourseSection AS cs ON sse.sectionId = cs.id
+JOIN SectionAssignment AS sa ON cs.id = sa.sectionId
+JOIN SectionAssignmentSubmissions AS sas ON sa.id = sas.assignmentId AND s.id = sas.studentId
+WHERE NOT EXISTS (
+    SELECT *
+    FROM SectionAssignment AS sa2
+    LEFT JOIN SectionAssignmentSubmissions AS sas2 ON sa2.id = sas2.assignmentId AND s.id = sas2.studentId
+    WHERE (sas2.id IS NULL OR sa2.dueDate < sas2.modifiedDate)
+    AND sa2.sectionId = cs.id
+)
+GROUP BY s.id, s.firstName, s.lastName
+having total_assignments = submitted_assignments;
 
 -- 82) Retrieve the list of students who have submitted late submissions for any assignment.
-select s.id, s.firstName, s.lastName
+select s.id, s.firstName, s.lastName, sa.dueDate, sas.modifiedDate
 from student as s
-join SectionAssignmentSubmissions as sse on sse.studentId = s.id
-join SectionAssignment as sa on 
+join SectionAssignmentSubmissions as sas on sas.studentId = s.id
+join SectionAssignment as sa on sa.id = sas.assignmentId;
+where sa.dueDate > sas.modifiedDate;
 
 
 -- 83) Retrieve the list of courses that have the lowest average grade for a particular semester.
@@ -1053,8 +1075,15 @@ having avg_score = (
 );
 
 -- 84) Retrieve the list of students who have not submitted any assignment for a particular course.
-
-
+SELECT st.id, st.firstName, st.lastName
+FROM Student AS st
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM CourseSection AS cs
+    JOIN SectionStudentsEnrolled AS sse ON cs.id = sse.sectionId
+    JOIN SectionAssignmentSubmissions AS sas ON sse.studentId = sas.studentId
+    WHERE st.id = sse.studentId
+);
 
 -- 85) Retrieve the list of courses where the highest grade is less than 90.
 select c.title, cs.sectionNumber, max(sse.score) as highest_score
