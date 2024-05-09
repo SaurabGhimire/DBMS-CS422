@@ -84,6 +84,7 @@ Create TABLE SectionStudentsEnrolled (
     FOREIGN KEY (sectionId) REFERENCES CourseSection(id) ON DELETE CASCADE,
     FOREIGN KEY (studentId) REFERENCES Student(id),
     grade char(2),
+    status int default 1 COMMENT "1 -> Enrolled 2 -> Completed 3 -> Drop out"
     CONSTRAINT section_student_unique UNIQUE (sectionId,studentId)
 );
 
