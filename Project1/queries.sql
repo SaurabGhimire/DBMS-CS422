@@ -692,12 +692,18 @@ WHERE sa.id IN (
     )
 );
 
--- 78) Retrieve the list of students who have submitted all the assignments in a particular course.
-select s.id
-from student as s
-join SectionStudentsEnrolled as sse on sse.studentId = s.id
-join SectionAssignment as sa on sa.sectionId = sse.sectionId
-
+-- 78) Retrieve the list of students who have submitted all the assignments in  all course.
+SELECT st.id, st.firstName, st.lastName, en.id,
+       COUNT(DISTINCT sa.id) AS total_assignments,
+       COUNT(DISTINCT sas.assignmentId) AS submitted_assignments
+FROM Student st
+JOIN SectionStudentsEnrolled en ON st.id = en.studentId
+JOIN CourseSection cs ON en.sectionId = cs.id
+JOIN SectionAssignment sa ON cs.id = sa.sectionId
+LEFT JOIN SectionAssignmentSubmissions sas ON sa.id = sas.assignmentId AND st.id = sas.studentId
+GROUP BY en.id
+HAVING total_assignments = submitted_assignments
+ORDER BY st.id;
 
 -- 79) Retrieve the list of courses where the average grade of all students is above 80.
 
