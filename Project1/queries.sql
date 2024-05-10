@@ -78,7 +78,6 @@ SELECT MAX(score) AS highest_grade
 
 
 -- 8) Retrieve the list of all students who have not completed a specific assignment.
--- TODO
 SELECT DISTINCT s.id, CONCAT(s.firstName, ' ', COALESCE(s.middleName, ''), ' ', s.lastName) as studentName, sa.title AS assignmentTitle, sa.id as assignmentId, cs.id as sectionId
     FROM Student s
     INNER JOIN SectionStudentsEnrolled sse ON s.id = sse.studentId
@@ -129,20 +128,19 @@ SELECT sa.id as assignmentId, sa.title as assignmentTitle, AVG(sas.score) as ave
 
 
 -- 13) Retrieve the number of students who have completed each assignment in a specific course.
--- TODO
-    SELECT COUNT(DISTINCT sse.studentId) AS totalStudentsCompletedAllAssignments
+SELECT COUNT(DISTINCT sse.studentId) AS totalStudentsCompletedAllAssignments
     FROM CourseSection cs
     JOIN SectionStudentsEnrolled sse ON cs.id = sse.sectionId
-    WHERE 
-    cs.id = 1
+    WHERE cs.id = 1
     AND sse.studentId IN (
         SELECT sas.studentId
-        FROM SectionAssignment sa
-        JOIN SectionAssignmentSubmissions sas ON sa.id = sas.assignmentId AND sas.studentId = sse.studentId
+        FROM SectionAssignmentSubmissions sas
+        JOIN SectionAssignment sa ON sas.assignmentId = sa.id
         WHERE sa.sectionId = 1
-        GROUP BY sas.studentId ORDER BY sas.studentId
-        HAVING COUNT(*) = (SELECT COUNT(*) FROM SectionAssignment WHERE sectionId = 1)
+        GROUP BY sas.studentId
+        HAVING COUNT(DISTINCT sas.assignmentId) = (SELECT COUNT(*) FROM SectionAssignment WHERE sectionId = 1)
     );
+
 
 -- 14) Retrieve the top 5 students with the highest overall grade average.
 SELECT s.id AS studentId,
@@ -480,25 +478,26 @@ SELECT
 
 
 -- 39) Retrieve the list of courses with the highest percentage of students who have completed all assignments.
--- TODO
 SELECT 
     c.id AS courseId, 
     c.title AS courseTitle,
-    COUNT(CASE WHEN completed_assignments = total_assignments THEN sse.studentId END) * 100.0 / COUNT(sse.studentId) AS completionPercentage
+    COUNT(CASE WHEN COALESCE(assignment_counts.completed_assignments, 0) = COALESCE(assignment_counts.total_assignments, 0) THEN sse.studentId END) * 100.0 / COUNT(sse.studentId) AS completionPercentage
     FROM Course c
     JOIN CourseSection cs ON cs.courseId = c.id
     JOIN SectionStudentsEnrolled sse ON sse.sectionId = cs.id
     LEFT JOIN (
         SELECT 
-            sa.sectionId,
+            cs.courseId,
             COUNT(sa.id) AS total_assignments,
             COUNT(DISTINCT sas.studentId) AS completed_assignments
         FROM SectionAssignment sa
+        JOIN CourseSection cs ON cs.id = sa.sectionId
         LEFT JOIN SectionAssignmentSubmissions sas ON sa.id = sas.assignmentId
-        GROUP BY sa.sectionId
-    ) AS assignment_counts ON cs.id = assignment_counts.sectionId
+        GROUP BY cs.courseId
+    ) AS assignment_counts ON c.id = assignment_counts.courseId
     GROUP BY c.id, c.title
     ORDER BY completionPercentage DESC;
+
 
 
 
@@ -665,7 +664,6 @@ SELECT s.id, CONCAT(s.firstName, ' ', COALESCE(s.middleName, ''), ' ', s.lastNam
 
 
 -- 52) Retrieve the list of students who have submitted at least one assignment for a specific course but have not completed all assignments.
--- TODO
 SELECT s.id, CONCAT(s.firstName, ' ', COALESCE(s.middleName, ''), ' ', s.lastName) AS studentName
 FROM Student s
 JOIN SectionStudentsEnrolled sse ON s.id = sse.studentId
@@ -1144,22 +1142,20 @@ SELECT c.id, c.code, c.title
 
 
 -- 90) Retrieve the list of students who have submitted all the assignments for a particular course.
--- TODO
 SELECT s.id, CONCAT(s.firstName, ' ', COALESCE(s.middleName, ''), ' ', s.lastName) AS studentName
-FROM Student s
-JOIN SectionStudentsEnrolled sse ON s.id = sse.studentId
-JOIN SectionAssignment sa ON sse.sectionId = sa.sectionId
-JOIN CourseSection cs ON cs.id = sa.sectionId
-LEFT JOIN SectionAssignmentSubmissions sas ON sse.studentId = sas.studentId AND sa.id = sas.assignmentId
-WHERE cs.courseId = 2
-GROUP BY s.id, studentName
-HAVING COUNT(DISTINCT sas.assignmentId) = (
-    SELECT COUNT(*)
-    FROM SectionAssignment sa2
-    JOIN CourseSection cs2 ON cs2.id = sa2.sectionId
-    WHERE cs2.courseId = 2
-);
-
+    FROM Student s
+    JOIN SectionStudentsEnrolled sse ON s.id = sse.studentId
+    JOIN CourseSection cs ON sse.sectionId = cs.id
+    JOIN SectionAssignment sa ON cs.id = sa.sectionId
+    LEFT JOIN SectionAssignmentSubmissions sas ON s.id = sas.studentId AND sa.id = sas.assignmentId
+    WHERE cs.courseId = 2
+    GROUP BY s.id, studentName
+    HAVING COUNT(DISTINCT sa.id) = (
+        SELECT COUNT(*)
+        FROM SectionAssignment sa2
+        JOIN CourseSection cs2 ON cs2.id = sa2.sectionId
+        WHERE cs2.courseId = 2
+    );
 
 
 -- 91) Retrieve the list of assignments that have not been graded yet for a particular course.
