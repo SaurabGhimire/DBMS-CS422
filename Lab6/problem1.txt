@@ -1,0 +1,29 @@
+1- You are given a database schema representing a fictional online bookstore. Your task is to normalize
+the given schema using the principles of database normalization. For each step of normalization, provide
+a brief explanation of the normalization rule being applied and the resulting modified schema.
+Schema:
+The initial schema is as follows:
+Table: Books
+| BookID | Title | Author | Year |
+| 1 | Book A | Author X | 2005 |
+| 2 | Book B | Author Y | 2010 |
+| 3 | Book C | Author X | 2018 |
+Table: Customers
+| CustomerID | Name | Email |
+| 1 | John Doe | john@example.com |
+| 2 | Jane Smith| jane@example.com |
+Table: Orders
+| OrderID | CustomerID | BookID |
+| 1 | 1 | 1 |
+| 2 | 1 | 2 |
+| 3 | 2 | 1 |
+
+Normalization Steps:
+Perform the following normalization steps on the given schema:
+Step 1: First Normal Form (1NF)
+Explain the 1NF rule and modify the schema to comply with it.
+Step 2: Second Normal Form (2NF)
+Explain the 2NF rule and modify the schema to comply with it.
+Step 3: Third Normal Form (3NF)
+Explain the 3NF rule and modify the schema to comply with it.
+
