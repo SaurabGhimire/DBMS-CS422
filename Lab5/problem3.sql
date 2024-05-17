@@ -12,7 +12,7 @@ FROM Customers AS c
 INNER JOIN Orders AS o ON c.id = o.customer_id
 INNER JOIN Orderdetails AS od ON o.id = od.order_id
 INNER JOIN Products AS p ON p.id = od.product_id
-GROUP BY c.id;
+GROUP BY c.id, c.country;
 
 -- c. Total revenue by category
 SELECT p.category_id,  ROUND(SUM(p.unit_price * od.quantity),2) AS revenue
@@ -20,7 +20,7 @@ FROM Customers AS c
 INNER JOIN Orders AS o ON c.id = o.customer_id
 INNER JOIN Orderdetails AS od ON o.id = od.order_id
 INNER JOIN Products AS p ON p.id = od.product_id
-GROUP BY p.id;
+GROUP BY p.category_id;
 
 -- d. Customer who has spent the most amount of money
 SELECT c.id, c.name, MAX(ROUND(od.quantity * p.unit_price, 2)) AS max_revenue
