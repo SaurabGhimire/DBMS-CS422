@@ -9,5 +9,5 @@ You may upload the database file and run the .sh file attached to execute and tr
     - Documentation Location: Transactions/Database Transactions.pdf
 
 ## You can also find the same copy in our google drive
-- <a href="https://docs.google.com/document/d/1KkpkohGaVwlbr6qa0QFE05TMpvkvHyCtn7Hr0if4NhI/edit">Exploring Database Indexes</a>
-- <a href="https://docs.google.com/document/d/13Huo1fInZ3hTsGoL7yMRdmZFBiOy5Z52Uiyd8W7NTRY/edit">Database Transactions</a>
+- <a href="https://docs.google.com/document/d/1KkpkohGaVwlbr6qa0QFE05TMpvkvHyCtn7Hr0if4NhI/edit" target="_blank">Exploring Database Indexes</a>
+- <a href="https://docs.google.com/document/d/13Huo1fInZ3hTsGoL7yMRdmZFBiOy5Z52Uiyd8W7NTRY/edit" target="_blank">Database Transactions</a>
